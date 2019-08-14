@@ -10,12 +10,12 @@ services:
       - "3000:3000"
     depends_on:
       - mongo
-    command: nodemon
+    command: npm run-script dev
     volumes:
       - ./:/usr/src/app
-      - ./docker-config.js:/usr/src/app/config.js
+     # - ./docker-config.js:/usr/src/app/config.js
     environment:
-      - 'DEBUG=app,app:*'
+      - 'DEBUG=*'
     links:
       - mongo
   mongo:

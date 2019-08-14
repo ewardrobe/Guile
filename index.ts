@@ -1,5 +1,5 @@
-import Joi from 'joi';
-import Config from 'config';
+import joi from 'joi';
+import config from 'config';
 import "reflect-metadata";
 import express from 'express';
 const app = express();

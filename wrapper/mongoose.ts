@@ -5,10 +5,9 @@ const host = _get('database.host');
 const database = _get('database.name');
 
 console.log(`mongodb://${host}/${database}`);
-connect(`mongodb://${host}/${database}`)
+mongoose.connect(`mongodb://${host}/${database}`)
     .then(() => console.log('DB Connected'))
     .catch(err => console.log('DB Failed!'));
-
 
 export default class DbWrapper {
     protected logger: LogInterface;

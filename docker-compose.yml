@@ -1,7 +1,7 @@
 version: "3"
 
 volumes:
-  hrgodb:
+  database:
 
 services:
   web:
@@ -12,9 +12,10 @@ services:
       - mongo
     command: nodemon
     volumes:
-      # Remaps the container directories for the UTrack Station.
       - ./:/usr/src/app
       - ./docker-config.js:/usr/src/app/config.js
+    environment:
+      - 'DEBUG=app,app:*'
     links:
       - mongo
   mongo:
@@ -23,7 +24,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - hrgodb:/data/db
+      - database:/data/db
   mongo-express:
     image: mongo-express
     restart: always

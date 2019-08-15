@@ -1,4 +1,4 @@
-import mongoose, { connect, Model, SchemaDefinition, MongooseDocument } from 'mongoose';
+import mongoose = require('mongoose');
 import { default as logger, LogInterface }  from '../logger/Log';
 import { get as _get } from 'config';
 const host = _get('database.host');

@@ -1,9 +1,8 @@
 import express, { Router, json } from 'express';
-const app = express();
 const router = Router();
 import Logger from '../logger/Log';
 import { default as userService, UserService } from '../services/UserService';
-app.use(json());
+express().use(json());
 
 router.get('/', async (request, response) => {
     let users = await userService.getUser(request.body);

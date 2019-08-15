@@ -1,6 +1,7 @@
-import { default as User, UserDb } from '../db/user';
+import * as c from '../db/connect';
 import { default as logger, LogInterface }  from '../logger/Log';
 
+console.log(c);
 
 logger.info('User Service init');
 

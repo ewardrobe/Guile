@@ -1,37 +1,31 @@
 {
-   "name": "e-wardrobe-api",
-   "version": "0.0.1",
-   "description": "",
-   "main": "index.js",
-   "scripts": {
-      "build": "tsc",
-      "dev": "tsc -w & nodemon build/index.js -T",
-      "start": "ts-node src/index.ts"
-   },
-   "author": "",
-   "license": "ISC",
-   "dependencies": {
-      "@types/config": "0.0.34",
-      "@types/debug": "^4.1.5",
-      "@types/express": "^4.17.0",
-      "@types/joi": "^14.3.3",
-      "@types/node": "^12.7.1",
-      "config": "^3.2.2",
-      "debug": "^4.1.1",
-      "express": "^4.17.1",
-      "joi": "^14.3.1",
-      "mongodb": "^3.0.8",
-      "mongoose": "^5.6.7",
-      "mysql": "^2.14.1",
-      "nodemon": "^1.19.1",
-      "reflect-metadata": "^0.1.10",
-      "typeorm": "0.2.18",
-      "typescript": "^3.5.3"
-   },
-   "devDependencies": {
-      "@types/mongoose": "^5.5.12",
-      "ts-node": "3.3.0",
-      "@types/node": "^8.0.29",
-      "typescript": "3.3.3333"
-   }
+  "name": "e-wardrobe-api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w & nodemon build/index.js -T",
+    "start": "ts-node src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/config": "0.0.34",
+    "@types/debug": "^4.1.5",
+    "@types/express": "^4.17.0",
+    "@types/joi": "^14.3.3",
+    "@types/node": "^12.7.1",
+    "config": "^3.2.2",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "mongodb": "^3.0.8",
+    "mysql": "^2.14.1",
+    "reflect-metadata": "^0.1.10",
+    "typeorm": "0.2.18"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1",
+    "typescript": "3.3.3333"
+  }
 }

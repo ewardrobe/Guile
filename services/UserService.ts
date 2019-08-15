@@ -1,27 +1,28 @@
-import * as c from '../db/connect';
-import { default as logger, LogInterface }  from '../logger/Log';
 
-console.log(c);
+import Logger, { default as logger, LogInterface }  from '../logger/Log';
+import { Connection, getConnection } from 'typeorm';
+import { User } from '../db/entity/User';
+
 
 logger.info('User Service init');
 
 export class UserService {
-    userDb: UserDb
+    database: Connection
     logger: LogInterface 
 
-    constructor(userDb: UserDb, logger: LogInterface) {
-        this.userDb = userDb;
+    constructor(database: Connection, logger: LogInterface) {
+        this.database = database;
         this.logger = logger;
     }
 
-    getUser(id: any) {
-        this.userDb;
+    async getUser(id?: string) {
+        return await this.database.getRepository(User).findOne(id);
     }
 
     async getUsers(query: {}) {
         try {
             query = query || {};
-            return await this.userDb.get(query);
+            return await this.database.getRepository(User).find(query);
         } catch (e) {
             this.logger.error(e);
         }
@@ -31,16 +32,14 @@ export class UserService {
         try {
 
             if (Array.isArray(user)) {
-
+                
             }
 
-            return this.userDb.create(user);
+            return this.database.manager.create(user);
         } catch (e) {
             this.logger.error(e.message);
         }
     }
 }
 
-const userService = new UserService(User, logger);
-
-export default userService;
+export default new UserService(getConnection(), Logger);

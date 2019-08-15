@@ -1,6 +1,7 @@
 import joi from 'joi';
 import config from 'config';
 import "reflect-metadata";
+import {dbConnection} from './db/connect';
 import express = require('express');
 const app = express();
 

@@ -1,10 +1,5 @@
 {
   "serverName": "localhost",
   "port": 3000,
-  "database": {
-      "host": "mongo",
-      "name": "e-wardrobe",
-      "user": "eWardrobe",
-      "port": 27017
-  }
+  "database": "development"
 }

@@ -26,8 +26,8 @@
   },
   "devDependencies": {
     "nodemon": "^1.19.1",
-    "typescript": "3.3.3333",
-    "ts-node": "^8.3.0"
+    "ts-node": "^8.3.0",
+    "typescript": "3.3.3333"
   },
   "repository": "git@github.com:ewardrobe/Guile.git"
 }

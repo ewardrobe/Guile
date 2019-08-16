@@ -1,23 +1,48 @@
-{
-   "name": "dev",
-   "type": "mongodb",
-   "host": "mongo",
-   "port": 27017,
-   "database": "e-wardrobe",
-   "synchronize": true,
-   "logging": true,
-   "entities": [
-      "src/db/entity/**/*.ts"
-   ],
-   "migrations": [
-      "src/db/migration/**/*.ts"
-   ],
-   "subscribers": [
-      "src/db/subscriber/**/*.ts"
-   ],
-   "cli": {
-      "entitiesDir": "src/db/entity",
-      "migrationsDir": "src/db/migration",
-      "subscribersDir": "src/db/subscriber"
+[
+   {
+      "name": "development",
+      "type": "mongodb",
+      "host": "mongo",
+      "port": 27017,
+      "database": "e-wardrobe",
+      "synchronize": true,
+      "logging": true,
+      "entities": [
+         "src/db/entity/**/*.ts"
+      ],
+      "migrations": [
+         "src/db/migration/**/*.ts"
+      ],
+      "subscribers": [
+         "src/db/subscriber/**/*.ts"
+      ],
+      "cli": {
+         "entitiesDir": "src/db/entity",
+         "migrationsDir": "src/db/migration",
+         "subscribersDir": "src/db/subscriber"
+      }
+   },
+   {
+      "name": "production",
+      "type": "mongodb",
+      "host": "mongo",
+      "port": 27017,
+      "database": "e-wardrobe",
+      "synchronize": true,
+      "logging": true,
+      "entities": [
+         "src/db/entity/**/*.ts"
+      ],
+      "migrations": [
+         "src/db/migration/**/*.ts"
+      ],
+      "subscribers": [
+         "src/db/subscriber/**/*.ts"
+      ],
+      "cli": {
+         "entitiesDir": "src/db/entity",
+         "migrationsDir": "src/db/migration",
+         "subscribersDir": "src/db/subscriber"
+      }
    }
-}
+]

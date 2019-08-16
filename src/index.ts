@@ -1,34 +1,37 @@
 import "reflect-metadata";
 import express = require('express');
+import dbConnection from "./db/connect"
 const app = express();
 
 let tt = '21';
 //routes
 import users from './routes/users';
 import { User } from "./db/entity/User";
-import { getConnectionOptions, createConnection, getConnection, Timestamp } from "typeorm";
+import { getConnectionOptions, createConnection, getConnection, Timestamp, Connection } from "typeorm";
 app.use(express.json());
 app.use('/users', users);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
 
-createConnection();
 
+const eWardobeDb = async () => {
+    const connection = await dbConnection();
+    
 
-
-let user = getConnection().getMongoRepository(User).create({
+    let u = connection.getMongoRepository(User).create({
         firstName: "james",
         lastName: "atkins",
         dateOfBirth: "1985-08-24"
     });
-    
-    console.log('save User NOWWWWWWWW!!!!!!');
 
-    async function test () {
-        return await getConnection().manager.getMongoRepository(User).findOne('5d55d7dc4b38d1001b872e59');
+    async function test (u: User) {
+        return await connection.manager.getMongoRepository(User).save(u);
     }
     
-    let UserS = test();
+    let UserS = await test(u);
     console.log(UserS);
-
+    console.log('save User NOWWWWWWWW!!!!!!');
+}
+    
+eWardobeDb();

@@ -1,4 +1,4 @@
-import Debug from 'debug';
+import debug from 'debug';
 
 export interface LogInterface {
     debug(message:string | any[], ...supportingData: any[]):void;
@@ -9,7 +9,7 @@ export interface LogInterface {
 
 class Log implements LogInterface {
     logger: debug.Debug;
-    constructor(Debug: Debug.Debug) {
+    constructor(Debug: debug.Debug) {
         this.logger = Debug;
     }
 
@@ -30,6 +30,6 @@ class Log implements LogInterface {
     }
 }
 
-const Logger = new Log(Debug);
+const Logger = new Log(debug);
 
 export default Logger;

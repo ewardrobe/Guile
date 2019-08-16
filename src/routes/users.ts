@@ -5,7 +5,10 @@ import { default as userService, UserService } from '../services/UserService';
 express().use(json());
 
 router.get('/', async (request, response) => {
-    let users = await userService.getUser(request.body);
+    //let users = await userService.getUser(request.body);
+    let users = [
+        {}
+    ];
     response.json({
         data: users
     });
@@ -13,7 +16,8 @@ router.get('/', async (request, response) => {
 
 router.post('/', async (request, response) => {
     try {
-        const user = await userService.addUser(request.body);
+        //const user = await userService.addUser(request.body);
+        const user = { };
         response.send({
             data: user
         });

@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc -w & nodemon build/index.js -T",
-    "start": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "start": "node build/index.js"
   },
-  "author": "",
+  "author": "peter <peter.atkins85@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "@types/config": "0.0.34",
@@ -26,6 +26,8 @@
   },
   "devDependencies": {
     "nodemon": "^1.19.1",
-    "typescript": "3.3.3333"
-  }
+    "typescript": "3.3.3333",
+    "ts-node": "^8.3.0"
+  },
+  "repository": "git@github.com:ewardrobe/Guile.git"
 }

@@ -5,10 +5,8 @@ import { default as userService, UserService } from '../services/UserService';
 express().use(json());
 
 router.get('/', async (request, response) => {
-    //let users = await userService.getUser(request.body);
-    let users = [
-        {}
-    ];
+    let users = await userService.getUsers(request.body);
+    Logger.info(users);
     response.json({
         data: users
     });
@@ -16,8 +14,7 @@ router.get('/', async (request, response) => {
 
 router.post('/', async (request, response) => {
     try {
-        //const user = await userService.addUser(request.body);
-        const user = { };
+        let user = await userService.createUser(request.body);
         response.send({
             data: user
         });
@@ -29,8 +26,12 @@ router.post('/', async (request, response) => {
     }
 });
 
-router.get('/:id', (req, res) => {
-    res.send('Hello Wordddld');
+router.get('/:id', async (request, response) => {
+    let user = await userService.getUser(request.body.id);
+    Logger.info('get User by id');
+    response.json({
+        data: user
+    });
 });
 
 export default router;

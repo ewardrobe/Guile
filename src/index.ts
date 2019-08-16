@@ -13,33 +13,11 @@ app.use('/users', users);
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
 
-createConnection({
-    "name": "dev",
-    "type": "mongodb",
-    "host": "mongo",
-    "port": 27017,
-    "database": "e-wardrobe",
-    "synchronize": true,
-    "logging": true,
-    "entities": [
-       "build/db/entity/**/*.ts"
-    ],
-    "migrations": [
-       "build/db/migration/**/*.ts"
-    ],
-    "subscribers": [
-       "build/db/subscriber/**/*.ts"
-    ],
-    "cli": {
-       "entitiesDir": "build/db/entity",
-       "migrationsDir": "build/db/migration",
-       "subscribersDir": "build/db/subscriber"
-    }
- });
+createConnection();
 
 
 
-let user = getConnection("dev").getMongoRepository(User).create({
+let user = getConnection().getMongoRepository(User).create({
         firstName: "james",
         lastName: "atkins",
         dateOfBirth: "1985-08-24"
@@ -53,3 +31,4 @@ let user = getConnection("dev").getMongoRepository(User).create({
     
     let UserS = test();
     console.log(UserS);
+

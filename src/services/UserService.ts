@@ -7,16 +7,19 @@ logger.info('User Service init');
 
 export class UserService {
     logger: LogInterface;
-    dbConnection: Promise<Connection>;
+    dbConnection: Connection;
     constructor(dbConnection: Promise<Connection>, logger: LogInterface) {
-        this.dbConnection = dbConnection;
+        this.setDbConnection(dbConnection);
         this.logger = logger;
+    }
+
+    async setDbConnection(dbConnection: Promise<Connection>) {
+        this.dbConnection = await dbConnection;
     }
 
     async getUser(id: string) {
         try {
-            let connection = await this.dbConnection;
-            return connection.getMongoRepository(User).findOne(id);
+            return this.dbConnection.getRepository(User).findOne(id);
         } catch(e) {
             this.logger.error(e.message);
         }
@@ -24,8 +27,7 @@ export class UserService {
 
     async getUsers(query: object) {
         try {
-            let connection = await this.dbConnection;
-            return connection.getMongoRepository(User).find(query);
+            return this.dbConnection.getRepository(User).find(query);
         } catch(e) {
             this.logger.error(e.message);
         }
@@ -33,8 +35,7 @@ export class UserService {
 
     async createUser(user: Object) {
         try {
-            let connection = await this.dbConnection;
-            let repository = connection.getMongoRepository(User);
+            let repository = this.dbConnection.getRepository(User);
             user = repository.create(user);
             return repository.save(user);
         } catch (e) {

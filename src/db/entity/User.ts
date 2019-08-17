@@ -1,4 +1,5 @@
 import {Entity, ObjectIdColumn, ObjectID, Column, BaseEntity, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import jwt from "jsonwebtoken";
 
 @Entity()
 export class User extends BaseEntity {
@@ -46,4 +47,9 @@ export class User extends BaseEntity {
     @UpdateDateColumn()
     lastUpdated: Date
     
+    async generateAuthToken() {
+        let token = await jwt.sign({ _id: this.id }, 'eWardrobeSecret');
+        
+        return token;
+    }
 }

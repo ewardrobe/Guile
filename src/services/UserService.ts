@@ -3,21 +3,6 @@ import { User } from '../db/entity/User';
 import dbConnection from "../db/connect"
 import { Connection } from 'typeorm';
 
-async function test() {
-    try {
-        let user = User.create({
-            firstName: "peter",
-            lastName: "atkins",
-            dateOfBirth: "1985-08-24"
-        });
-        User.save(user);
-        logger.info('What the hell is hapening ');
-    } catch (e) {
-        logger.error(e);
-    }
-}
-
-test();
 logger.info('User Service init');
 
 export class UserService {
@@ -46,10 +31,12 @@ export class UserService {
         }
     }
 
-    async createUser(user:Object) {
+    async createUser(user: Object) {
         try {
             let connection = await this.dbConnection;
-            return connection.getRepository(User).create(user);
+            let repository = connection.getMongoRepository(User);
+            user = repository.create(user);
+            return repository.save(user);
         } catch (e) {
             this.logger.error(e.message);
         }

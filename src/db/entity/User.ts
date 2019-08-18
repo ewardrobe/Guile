@@ -1,5 +1,6 @@
-import {Entity, ObjectIdColumn, ObjectID, Column, BaseEntity, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import {Entity, ObjectIdColumn, ObjectID, Column, BaseEntity, CreateDateColumn, UpdateDateColumn, BeforeInsert} from "typeorm";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 @Entity()
 export class User extends BaseEntity {
@@ -51,5 +52,13 @@ export class User extends BaseEntity {
         let token = await jwt.sign({ _id: this.id }, 'eWardrobeSecret');
         
         return token;
+    }
+
+    @BeforeInsert()
+    async hashPassword() {
+        if (this.password) {
+            let salt = await bcrypt.genSalt();
+            this.password = await bcrypt.hash(this.password, salt);
+        }
     }
 }

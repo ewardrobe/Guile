@@ -17,7 +17,6 @@ router.get('/', async (request, response) => {
 router.post('/', async (request, response) => {
     try {
         logger.debug(request.body);
-        createRequestValidator.validate(request.body);
         let user = await userService.createUser(request.body);
         logger.debug(user.username);
         response.send({

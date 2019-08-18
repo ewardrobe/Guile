@@ -1,6 +1,7 @@
 import { default as logger, LogInterface }  from '../logger/Log';
 import { User } from '../db/entity/User';
 import dbConnection from "../db/connect"
+import { createRequestValidator } from "../validator/user"
 import { Connection } from 'typeorm';
 
 logger.info('User Service init');
@@ -33,13 +34,27 @@ export class UserService {
         }
     }
 
-    async createUser(user: Object) {
+    async createUser(user: Object, registration: boolean = false) {
         try {
+            createRequestValidator.validate(user);
             let repository = this.dbConnection.getRepository(User);
             user = repository.create(user);
             return repository.save(user);
         } catch (e) {
             this.logger.error(e.message);
+            return e;
+        }
+    }
+
+    async registerUser(user: Object) {
+        try {
+            createRequestValidator.validate(user);
+            let repository = this.dbConnection.getRepository(User);
+            user = repository.create(user);
+            return repository.save(user);
+        } catch (e) {
+            this.logger.error(e.message);
+            return e;
         }
     }
 }

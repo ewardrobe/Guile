@@ -2,10 +2,8 @@ import { default as logger, LogInterface }  from '../logger/Log';
 import { User } from '../db/entity/User';
 import dbConnection from "../db/connect"
 import bcrypt from "bcrypt";
-import { createRequestValidator, registrationRequestValidator } from "../validator/user"
-import { Connection } from 'typeorm';
-
-logger.info('User Service init');
+import { createValidator, registrationValidator, updateValidator } from "../validator/user"
+import { Connection, ObjectID } from 'typeorm';
 
 export class UserService {
     logger: LogInterface;
@@ -16,7 +14,11 @@ export class UserService {
     }
 
     async setDbConnection(dbConnection: Promise<Connection>) {
-        this.dbConnection = await dbConnection;
+        try {
+            this.dbConnection = await dbConnection;
+        } catch(e) {
+            throw e;
+        }
     }
 
     async getUser(id: string) {
@@ -37,7 +39,7 @@ export class UserService {
 
     async createUser(user: Object, registration: boolean = false) {
         try {
-            createRequestValidator.validate(user);
+            createValidator.validate(user);
             let repository = this.dbConnection.getRepository(User);
             let userEntity:User = repository.create(user);
             return repository.save(userEntity);
@@ -49,13 +51,28 @@ export class UserService {
 
     async registerUser(user: Object) {
         try {
-            registrationRequestValidator.validate(user);
+            registrationValidator.validate(user);
             let repository = this.dbConnection.getRepository(User);
             user = repository.create(user);
             return repository.save(user);
         } catch (e) {
             this.logger.error(e.message);
             return e;
+        }
+    }
+
+    async updateUser(id: string, data: object) {
+        try {
+            await updateValidator.validate(data);
+            let repository = this.dbConnection.getRepository(User);
+            let updateUser = repository.create(data);
+            let userEntity:User = await repository.findOneOrFail(id);
+            userEntity = await repository.preload(updateUser);
+            console.log(userEntity);
+            return userEntity;
+        } catch (e) {
+            this.logger.error(e.message);
+            throw e;
         }
     }
 }

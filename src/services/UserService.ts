@@ -61,14 +61,14 @@ export class UserService {
         }
     }
 
-    async updateUser(id: string, data: object) {
+    async updateUser(userEntity: User, data: object) {
         try {
             await updateValidator.validate(data);
             let repository = this.dbConnection.getRepository(User);
-            let updateUser = repository.create(data);
-            let userEntity:User = await repository.findOneOrFail(id);
-            userEntity = await repository.preload(updateUser);
-            console.log(userEntity);
+            let updatedUser = await repository.merge(userEntity, data);
+            await repository.save(updatedUser);
+            console.log(updatedUser);
+
             return userEntity;
         } catch (e) {
             this.logger.error(e.message);

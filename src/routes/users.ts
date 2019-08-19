@@ -2,6 +2,7 @@ import express, { Router, json } from 'express';
 const router = Router();
 import logger from '../logger/Log';
 import { default as userService, UserService } from '../services/UserService';
+import { registrationValidator } from '../validator/user';
 express().use(json());
 
 router.get('/', async (request, response) => {
@@ -11,6 +12,24 @@ router.get('/', async (request, response) => {
     response.json({
         data: users
     });
+});
+
+
+router.post('/register', async (request, response) => {
+    try {
+        logger.debug(request.body);
+        await registrationValidator.validate(request.body);
+        let user = await userService.createUser(request.body);
+        logger.debug(user.username);
+        response.send({
+            data: user
+        });
+    } catch (e) {
+        logger.error(e);
+        response.send({
+            error: e.message
+        });
+    }
 });
 
 router.post('/', async (request, response) => {
@@ -43,7 +62,13 @@ router.get('/:id', async (request, response) => {
 
 router.patch('/:id', async (request, response) => {
     try {
-        let user = await userService.updateUser(request.param('id'), request.body);
+        let user = await userService.getUser(request.param("id"));
+
+        if (!user) {
+            response.status(404).send('User not found!');
+        }
+
+        user = await userService.updateUser(user, request.body);
         response.json({
             data: user
         });

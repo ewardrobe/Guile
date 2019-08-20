@@ -1,69 +1,69 @@
-import {
-  Entity,
-  ObjectIdColumn,
-  ObjectID,
-  Column,
-  BaseEntity,
-  CreateDateColumn,
-  UpdateDateColumn,
-  BeforeInsert,
-} from 'typeorm';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import {
+  BaseEntity,
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  ObjectID,
+  ObjectIdColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class User extends BaseEntity {
   @ObjectIdColumn()
-  id: ObjectID;
+  public id: ObjectID;
 
   @Column({
-    type: 'varchar',
     length: 150,
+    type: 'varchar',
   })
-  firstName: string;
+  public firstName: string;
 
   @Column({
-    type: 'varchar',
     length: 150,
+    type: 'varchar',
   })
-  lastName: string;
+  public lastName: string;
 
   @Column({
-    type: 'varchar',
     length: 150,
+    type: 'varchar',
     unique: true,
   })
-  username: string;
+  public username: string;
 
   @Column({
-    type: 'varchar',
     length: 150,
+    type: 'varchar',
   })
-  email: string;
+  public email: string;
 
   @Column({
-    type: 'varchar',
     length: 150,
+    type: 'varchar',
   })
-  password: string;
+  public password: string;
 
   @Column()
-  dateOfBirth: Date;
+  public dateOfBirth: Date;
 
   @CreateDateColumn()
-  createdDate: Date;
+  public createdDate: Date;
 
   @UpdateDateColumn()
-  lastUpdated: Date;
+  public lastUpdated: Date;
 
-  async generateAuthToken() {
+  public async generateAuthToken() {
     const token = await jwt.sign({ _id: this.id }, 'eWardrobeSecret');
 
     return token;
   }
 
   @BeforeInsert()
-  async hashPassword() {
+  public async hashPassword() {
     if (this.password) {
       const salt = await bcrypt.genSalt();
       this.password = await bcrypt.hash(this.password, salt);

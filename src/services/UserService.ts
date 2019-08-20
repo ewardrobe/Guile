@@ -1,36 +1,36 @@
-import { default as logger, LogInterface } from '../logger/Log';
-import { User } from '../db/entity/User';
-import dbConnection from '../db/connect';
-import { createValidator, updateValidator } from '../validator/user';
-import { Connection } from 'typeorm';
-import { LookupError } from '../exception';
+import { Connection } from "typeorm";
+import dbConnection from "../db/connect";
+import { User } from "../db/entity/User";
+import { LookupError } from "../exception";
+import { default as logger, LogInterface } from "../logger/Log";
+import { createValidator, updateValidator } from "../validator/user";
 
 export class UserService {
-  logger: LogInterface;
-  dbConnection: Connection;
-  constructor(dbConnection: Promise<Connection>, logger: LogInterface) {
-    this.setDbConnection(dbConnection);
-    this.logger = logger;
+  private logger: LogInterface;
+  private dbConnection: Connection;
+  constructor(connection: Promise<Connection>, Log: LogInterface) {
+    this.setDbConnection(connection);
+    this.logger = Log;
   }
 
-  async setDbConnection(dbConnection: Promise<Connection>) {
+  public async setDbConnection(connection: Promise<Connection>) {
     try {
-      this.dbConnection = await dbConnection;
+      this.dbConnection = await connection;
     } catch (e) {
       throw e;
     }
   }
 
-  async getUser(id: string) {
+  public async getUser(id: string) {
     try {
       return await this.dbConnection.getRepository(User).findOne(id);
     } catch (e) {
       this.logger.error(e.message);
-      throw new LookupError('User not found!');
+      throw new LookupError("User not found!");
     }
   }
 
-  async getUsers(query: object) {
+  public async getUsers(query: object) {
     try {
       return this.dbConnection.getRepository(User).find(query);
     } catch (e) {
@@ -38,7 +38,7 @@ export class UserService {
     }
   }
 
-  async createUser(user: Object, registration: boolean = false) {
+  public async createUser(user: object, registration: boolean = false) {
     try {
       await createValidator.validate(user);
       const repository = this.dbConnection.getRepository(User);
@@ -50,13 +50,12 @@ export class UserService {
     }
   }
 
-  async updateUser(userEntity: User, data: object) {
+  public async updateUser(userEntity: User, data: object) {
     try {
       await updateValidator.validate(data);
       const repository = this.dbConnection.getRepository(User);
       const updatedUser = await repository.merge(userEntity, data);
       await repository.save(updatedUser);
-      console.log(updatedUser);
 
       return userEntity;
     } catch (e) {

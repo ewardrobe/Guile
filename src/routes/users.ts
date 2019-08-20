@@ -1,13 +1,13 @@
-import express, { Router, json } from 'express';
+import express, { json, Router } from 'express';
 const router = Router();
+import { string } from '@hapi/joi';
+import { LookupError } from '../exception';
 import logger from '../logger/Log';
 import { default as userService, UserService } from '../services/UserService';
-import { LookupError } from '../exception';
-import { string } from '@hapi/joi';
 express().use(json());
 
 router.get('/', async (request, response) => {
-  console.log(request.body);
+  logger.debug(request.body);
   const users = await userService.getUsers(request.body);
   logger.info(users);
   response.json({

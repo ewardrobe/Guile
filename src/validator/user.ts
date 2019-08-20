@@ -12,7 +12,22 @@ const username = joi
   .max(20);
 
 export const createValidator = joi.object().keys({
-  username: username.required(),
+  dateOfBirth: joi.string().isoDate(),
+  email: joi
+    .string()
+    .email()
+    .required(),
+  emailVerified: joi.bool().default(false),
+  firstName: joi
+    .string()
+    .min(2)
+    .max(20)
+    .required(),
+  lastName: joi
+    .string()
+    .min(2)
+    .max(20)
+    .required(),
   password: password.required(),
   passwordConfirm: joi
     .string()
@@ -25,30 +40,13 @@ export const createValidator = joi.object().keys({
         },
       },
     }),
-  email: joi
-    .string()
-    .email()
-    .required(),
-  emailVerified: joi.bool().default(false),
-  dateOfBirth: joi.string().isoDate(),
-  firstName: joi
-    .string()
-    .min(2)
-    .max(20)
-    .required(),
-  lastName: joi
-    .string()
-    .min(2)
-    .max(20)
-    .required(),
+  username: username.required(),
 });
 
 export const updateValidator = joi.object().keys({
-  username,
-  password,
+  dateOfBirth: joi.string().isoDate(),
   email: joi.string().email(),
   emailVerified: joi.bool().default(false),
-  dateOfBirth: joi.string().isoDate(),
   firstName: joi
     .string()
     .min(2)
@@ -57,4 +55,6 @@ export const updateValidator = joi.object().keys({
     .string()
     .min(2)
     .max(20),
+  password,
+  username,
 });

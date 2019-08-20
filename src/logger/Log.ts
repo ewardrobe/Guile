@@ -8,24 +8,24 @@ export interface LogInterface {
 }
 
 class Log implements LogInterface {
-    logger: debug.Debug;
+    public logger: debug.Debug;
     constructor(Debug: debug.Debug) {
         this.logger = Debug;
     }
 
-    debug(message: string | any[]) {
+    public debug(message: string | any[]) {
         this.logger('app:debug')(message);
     }
 
-    error(message: string | any[]) {
+    public error(message: string | any[]) {
         this.logger('app:error')(message);
     }
 
-    info(message: string | any[]) {
+    public info(message: string | any[]) {
         this.logger('app:info')(message);
     }
 
-    warn(message: string | any[]) {
+    public warn(message: string | any[]) {
         this.logger('app:warn')(message);
     }
 }

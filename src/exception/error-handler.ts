@@ -1,0 +1,3 @@
+function responseErrorHandler(error: Error) {
+
+}

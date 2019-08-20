@@ -1,14 +1,11 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 import express = require('express');
-import dbConnection from "./db/connect"
+import dbConnection from './db/connect';
 import config from 'config';
-const app = express();
-
-let tt = '21';
-//routes
 import users from './routes/users';
-import { User } from "./db/entity/User";
-import { getConnectionOptions, createConnection, getConnection, Timestamp, Connection } from "typeorm";
+import { User } from './db/entity/User';
+
+const app = express();
 app.use(express.json());
 app.use('/users', users);
 

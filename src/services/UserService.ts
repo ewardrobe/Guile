@@ -13,7 +13,7 @@ export class UserService {
     this.logger = Log;
   }
 
-  public async setDbConnection(connection: Promise<Connection>):Promise<any> {
+  public async setDbConnection(connection: Promise<Connection>): Promise<void> {
     try {
       this.dbConnection = await connection;
     } catch (e) {
@@ -21,7 +21,7 @@ export class UserService {
     }
   }
 
-  public async getUser(id: string):Promise<User> {
+  public async getUser(id: string): Promise<User> {
     try {
       return await this.dbConnection.getRepository(User).findOne(id);
     } catch (e) {
@@ -30,7 +30,7 @@ export class UserService {
     }
   }
 
-  public async getUsers(query: object):Promise<User[]> {
+  public async getUsers(query: object): Promise<User[]> {
     try {
       return this.dbConnection.getRepository(User).find(query);
     } catch (e) {
@@ -38,7 +38,7 @@ export class UserService {
     }
   }
 
-  public async createUser(user: object, registration: boolean = false):Promise<User> {
+  public async createUser(user: object): Promise<User> {
     try {
       await createValidator.validate(user);
       const repository = this.dbConnection.getRepository(User);
@@ -50,7 +50,7 @@ export class UserService {
     }
   }
 
-  public async updateUser(userEntity: User, data: object) {
+  public async updateUser(userEntity: User, data: object): Promise<User> {
     try {
       await updateValidator.validate(data);
       const repository = this.dbConnection.getRepository(User);

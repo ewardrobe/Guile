@@ -1,10 +1,10 @@
 import debug from 'debug';
 
 export interface LogInterface {
-    debug(message:string | any[], ...supportingData: any[]):void;
-    warn(message:string | any[], ...supportingData: any[]):void;
-    error(message:string | any[], ...supportingData: any[]):void;
-    info(message:string | any[], ...supportingData: any[]):void;
+    debug(message: any): void;
+    warn(message: any): void;
+    error(message: any): void;
+    info(message: any): void;
 }
 
 class Log implements LogInterface {
@@ -13,19 +13,19 @@ class Log implements LogInterface {
         this.logger = Debug;
     }
 
-    public debug(message: string | any[]) {
+    public debug(message: any): void {
         this.logger('app:debug')(message);
     }
 
-    public error(message: string | any[]) {
+    public error(message: any): void {
         this.logger('app:error')(message);
     }
 
-    public info(message: string | any[]) {
+    public info(message: any): void {
         this.logger('app:info')(message);
     }
 
-    public warn(message: string | any[]) {
+    public warn(message: any): void {
         this.logger('app:warn')(message);
     }
 }

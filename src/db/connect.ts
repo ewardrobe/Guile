@@ -1,9 +1,9 @@
 import config from 'config';
 import 'reflect-metadata';
-import { createConnection, getConnectionOptions } from 'typeorm';
+import { createConnection, getConnectionOptions, Connection } from 'typeorm';
 import logger from '../logger/Log';
 
-const dbConnection = async () => {
+const dbConnection = async (): Promise<Connection> => {
     logger.debug(config.get('database'));
     const connectionOptions = await getConnectionOptions(config.get('database'));
     return createConnection(connectionOptions);

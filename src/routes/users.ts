@@ -1,9 +1,8 @@
 import express, { json, Router } from 'express';
 const router = Router();
-import { string } from '@hapi/joi';
 import { LookupError } from '../exception';
 import logger from '../logger/Log';
-import { default as userService, UserService } from '../services/UserService';
+import { default as userService } from '../services/UserService';
 express().use(json());
 
 router.get('/', async (request, response) => {

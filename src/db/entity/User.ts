@@ -56,14 +56,14 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   public lastUpdated: Date;
 
-  public async generateAuthToken() {
+  public async generateAuthToken(): Promise<string> {
     const token = await jwt.sign({ _id: this.id }, 'eWardrobeSecret');
 
     return token;
   }
 
   @BeforeInsert()
-  public async hashPassword() {
+  public async hashPassword(): Promise<void> {
     if (this.password) {
       const salt = await bcrypt.genSalt();
       this.password = await bcrypt.hash(this.password, salt);

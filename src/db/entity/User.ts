@@ -56,8 +56,16 @@ export class User extends BaseEntity {
   @UpdateDateColumn()
   public lastUpdated: Date;
 
+  @Column({
+    default: false,
+  })
+  public isAdmin: boolean = false;
+
   public async generateAuthToken(): Promise<string> {
-    const token = await jwt.sign({ _id: this.id }, 'eWardrobeSecret');
+    const token = await jwt.sign({
+      _id: this.id,
+      _isAdmin: this.isAdmin
+    }, 'eWardrobeSecret');
 
     return token;
   }

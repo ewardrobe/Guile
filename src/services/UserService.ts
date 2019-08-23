@@ -37,7 +37,7 @@ export class UserService {
       this.logger.error(e.message);
     }
   }
-
+ 
   public async createUser(user: object): Promise<User> {
     try {
       await createValidator.validate(user);

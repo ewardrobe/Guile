@@ -3,12 +3,13 @@ const router = Router();
 import { LookupError } from '../exception';
 import logger from '../logger/Log';
 import { default as userService } from '../services/UserService';
+import { User } from '../db/entity/User';
 express().use(json());
 
 router.get('/', async (request, response) => {
   logger.debug(request.body);
   const users = await userService.getUsers(request.body);
-  logger.info(users);
+  logger.debug(users);
   response.json({
     data: users,
   });
@@ -17,9 +18,10 @@ router.get('/', async (request, response) => {
 router.post('/', async (request, response) => {
   try {
     logger.debug(request.body);
-    const user = await userService.createUser(request.body);
-    logger.debug(user.username);
-    response.send({
+    const user: User = await userService.createUser(request.body);
+    const token = await user.generateAuthToken();
+    logger.debug(user);
+    response.header('x-auth-token', token).send({
       data: user,
     });
   } catch (e) {
@@ -34,6 +36,7 @@ router.get('/:id', async (request, response) => {
   try {
     const user = await userService.getUser(request.param('id'));
     logger.info('get User by id');
+    logger.debug(user);
     response.json({
       data: user,
     });

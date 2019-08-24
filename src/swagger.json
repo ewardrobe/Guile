@@ -32,33 +32,33 @@
     "application/json"
   ],
   "paths": {
-    "/cats": {
+    "/user": {
       "get": {
         "tags": [
-          "Cats"
+          "Users"
         ],
-        "summary": "Get all cats in system",
+        "summary": "Get all users",
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Cats"
+              "$ref": "#/definitions/Users"
             }
           }
         }
       },
       "post": {
         "tags": [
-          "Cats"
+          "Users"
         ],
-        "summary": "Create a new cat in system",
+        "summary": "Create a new user in system",
         "requestBody": {
-          "description": "Cat Object",
+          "description": "User Object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/Cat"
+                "$ref": "#/definitions/User"
               }
             }
           }
@@ -79,27 +79,27 @@
         }
       }
     },
-    "/cats/{id}": {
+    "/user/{id}": {
       "parameters": [
         {
           "name": "id",
           "in": "path",
           "required": true,
-          "description": "ID of the cat that we want to match",
+          "description": "ID of the user that we want to match",
           "type": "string"
         }
       ],
       "get": {
         "tags": [
-          "Cats"
+          "Users"
         ],
-        "summary": "Get cat with given ID",
+        "summary": "Get users with given ID",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "Cat with id",
+            "description": "User with id",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -109,26 +109,26 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Cat"
+              "$ref": "#/definitions/User"
             }
           },
           "404": {
-            "description": "Failed. Cat not found."
+            "description": "Failed. User not found."
           }
         }
       },
       "put": {
-        "summary": "Update cat with given ID",
+        "summary": "Update user with given ID",
         "tags": [
-          "Cats"
+          "Users"
         ],
         "requestBody": {
-          "description": "Cat Object",
+          "description": "User Object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/definitions/Cat"
+                "$ref": "#/definitions/User"
               }
             }
           }
@@ -138,7 +138,7 @@
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "Cat with new values of properties",
+            "description": "User with new values of properties",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -148,7 +148,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Cat"
+              "$ref": "#/definitions/User"
             }
           },
           "400": {
@@ -160,16 +160,16 @@
         }
       },
       "delete": {
-        "summary": "Delete cat with given ID",
+        "summary": "Delete user with given ID",
         "tags": [
-          "Cats"
+          "User"
         ],
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "description": "Delete Cat with id",
+            "description": "Delete User with id",
             "schema": {
               "$ref": "#/definitions/id"
             }
@@ -183,7 +183,7 @@
             }
           },
           "404": {
-            "description": "Failed. Cat not found."
+            "description": "Failed. User not found."
           }
         }
       }

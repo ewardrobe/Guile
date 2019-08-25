@@ -32,7 +32,7 @@ export class UserAuthenticationService {
 
       return user;
     } catch (ex) {
-      errorHandler.handleCaughtError(ex, 'An error has occured during athentication');
+      errorHandler.processAndThrowCaughtError(ex, 'An error has occured during athentication');
     }
   }
 }

@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import config from 'config';
 import {
   BaseEntity,
   BeforeInsert,
@@ -65,7 +66,7 @@ export class User extends BaseEntity {
     const token = await jwt.sign({
       _id: this.id,
       _isAdmin: this.isAdmin
-    }, 'eWardrobeSecret');
+    }, config.get('jwtPrivateKey'));
 
     return token;
   }

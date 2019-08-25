@@ -9,6 +9,8 @@ export class AppError extends Error {
 
     public setStatusCode(statusCode: number) {
         this.statusCode = statusCode;
+
+        return this;
     }
 
     public getInternalMessage() {
@@ -17,6 +19,8 @@ export class AppError extends Error {
 
     public setInternalMessage(internalMessage: string) {
         this.internalMessage = internalMessage;
+
+        return this;
     }
 }
 
@@ -30,13 +34,21 @@ class ErrorHandler {
         this.logger = logger;
     }
 
-    public handleCaughtError(error: Error, errorMessage: string = 'An error has occured') {
+    private processError(error: Error, errorMessage: string): AppError {
         this.logger.error(error.message);
         if (error instanceof AppError) {
-            throw error;
+            return error;
         } else {
-            throw new AppError(errorMessage).setInternalMessage(error.message);
+            return new AppError(errorMessage).setInternalMessage(error.message);
         }
+    }
+
+    public processAndThrowCaughtError(error: Error, errorMessage: string = 'An error has occured'): void {
+        throw this.processError(error, errorMessage);
+    }
+
+    public processAndReturnCaughtError(error: Error, errorMessage: string = 'An error has occured'): AppError {
+        return this.processError(error, errorMessage);
     }
 }
 

@@ -2,7 +2,6 @@ import express, { json, Router } from 'express';
 const router = Router();
 import logger from '../logger/Log';
 import { default as AuthenticationService } from '../services/Auth/UserAuthenticationService';
-import { User } from '../db/entity/User';
 import { apiResponseHandler } from '../http/api-response-handler';
 import { ApiRequest, ApiResponse } from '../http';
 express().use(json());

@@ -25,7 +25,7 @@ router.post('/', async (request, response) => {
     const token = await user.generateAuthToken();
     logger.debug(user);
     response.header('x-auth-token', token);
-    apiResponseHandler.send(response, user, headers);
+    apiResponseHandler.send(response, user);
   } catch (ex) {
     apiResponseHandler.error(response, ex);
   }
@@ -36,11 +36,10 @@ router.get('/:id', async (request, response) => {
     const user = await userService.getUser(request.param('id'));
     logger.info('get User by id');
     logger.debug(user);
-    response.json({
-      data: user,
-    });
+    apiResponseHandler.send(response, user);
   } catch (e) {
-    logger.error(e.message);
+    const error = 
+    apiResponseHandler.error(response, e);
   }
 });
 

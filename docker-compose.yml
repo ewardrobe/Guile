@@ -13,9 +13,10 @@ services:
     command: npm run-script dev
     volumes:
       - ./:/usr/src/app
-     # - ./docker-config.js:/usr/src/app/config.js
     environment:
       - 'DEBUG=*'
+      - 'NODE_ENV=development'
+      - 'eWardobe_jwtPrivateKey=3454tgrvstwjwhnbawerq215hyqrg462q53yhgqergqewrgtgdfgbqe3aw534h'
     links:
       - mongo
   mongo:

@@ -46,7 +46,8 @@ export class UserService {
         }
       });
     } catch (ex) {
-
+      this.logger.error(ex.message);
+      throw new ResourceQueryError("User not found!");
     }
   }
 

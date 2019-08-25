@@ -2,5 +2,5 @@
   "serverName": "localhost",
   "port": 3000,
   "database": "development",
-  "jwtSecret": "jwtSecret"
+  "jwtPrivateKey": ""
 }

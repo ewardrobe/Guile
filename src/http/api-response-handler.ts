@@ -8,8 +8,9 @@ class ApiResponseHandler {
         this.logger = logger;
     }
 
-    public error(response: ApiResponse, error: Error) {
+    public error(response: ApiResponse, error: Error): void {
         let message = error.message;
+        let statusCode = 500;
 
         if (error instanceof AppError) {
             this.logger.error(error.getInternalMessage());
@@ -26,16 +27,10 @@ class ApiResponseHandler {
         });
     }
 
-    public send(response: ApiResponse, data: any) {
+    public send(response: ApiResponse, data: any): void {
         response.send({
             data: data
         });
-    }
-
-    public setStatusCode(statusCode: number) {
-        this.statusCode = statusCode;
-
-        return this;
     }
 }
 

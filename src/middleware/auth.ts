@@ -1,9 +1,9 @@
 import config from 'config';
 import jwt from 'jsonwebtoken';
-import { Request } from 'express';
 import { ApiRequest, ApiResponse } from '../http';
+import { errorHandler, AppError } from '../exception/exception';
+import { apiResponseHandler } from '../http/api-response-handler';
 
- 
 export default function auth(request: ApiRequest, response: ApiResponse, next: any) {
     const authrorizationHeader = request.header('Authorization').trim();
     const token = authrorizationHeader.replace('Bearer ', '');
@@ -16,8 +16,7 @@ export default function auth(request: ApiRequest, response: ApiResponse, next: a
       const decoded = jwt.verify(token, config.get('jwtSecret'));
       request.user = decoded;
     } catch (ex) {
-      response.status(400).send({
-        error: 'Invalid token.'
-      })
+      const error: AppError = errorHandler.processAndReturnCaughtError(ex, 'Invalid token.').setStatusCode(400);
+      apiResponseHandler.error(response, error);
     }
 }

@@ -30,16 +30,10 @@ export const createValidator = joi.object().keys({
     .required(),
   password: password.required(),
   passwordConfirm: joi
-    .string()
-    .required()
+    .any()
     .valid(joi.ref('password'))
-    .options({
-      language: {
-        any: {
-          allowOnly: '!!Passwords do not match',
-        },
-      },
-    }),
+    .required()
+    .options({ language: { any: { allowOnly: 'must match password' } } }),
   username: username.required(),
 });
 

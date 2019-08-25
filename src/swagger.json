@@ -197,10 +197,10 @@
         }
       }
     },
-    "Cat": {
+    "User": {
       "type": "object",
       "properties": {
-        "genus": {
+        "id": {
           "type": "string"
         },
         "name": {
@@ -214,13 +214,13 @@
         }
       }
     },
-    "Cats": {
+    "Users": {
       "type": "object",
       "properties": {
-        "cats": {
+        "users": {
           "type": "object",
           "additionalProperties": {
-            "$ref": "#/definitions/Cat"
+            "$ref": "#/definitions/User"
           }
         }
       }

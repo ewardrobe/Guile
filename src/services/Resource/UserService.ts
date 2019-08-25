@@ -1,9 +1,17 @@
 import { Connection } from "typeorm";
-import dbConnection from "../db/connect";
-import { User } from "../db/entity/User";
-import { LookupError } from "../exception";
-import { default as logger, LogInterface } from "../logger/Log";
-import { createValidator, updateValidator } from "../validator/user";
+import dbConnection from "../../db/connect";
+import { User } from "../../db/entity/User";
+import { ResourceQueryError } from "../../exception/exception";
+import { default as logger, LogInterface } from "../../logger/Log";
+import { createValidator, updateValidator } from "../../validator/user";
+
+export interface UserQuery {
+  firstName: string | undefined;
+  lastName: string | undefined;
+  username: string | undefined;
+  password: string | undefined;
+  email: string | undefined;
+}
 
 export class UserService {
   private logger: LogInterface;
@@ -23,10 +31,22 @@ export class UserService {
 
   public async getUser(id: string): Promise<User> {
     try {
-      return await this.dbConnection.getRepository(User).findOne(id);
-    } catch (e) {
-      this.logger.error(e.message);
-      throw new LookupError("User not found!");
+      return this.dbConnection.getRepository(User).findOne(id);
+    } catch (ex) {
+      this.logger.error(ex.message);
+      throw new ResourceQueryError("User not found!");
+    }
+  }
+
+  public async getUserByEmail(email: string) {
+    try {
+      return this.dbConnection.getRepository(User).findOne({
+        where: {
+          email: email
+        }
+      });
+    } catch (ex) {
+
     }
   }
 

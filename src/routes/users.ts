@@ -1,12 +1,15 @@
 import express, { json, Router } from 'express';
 const router = Router();
-import { LookupError } from '../exception';
+import { ResourceQueryError } from '../exception/exception';
 import logger from '../logger/Log';
-import { default as userService } from '../services/UserService';
+import auth from '../middleware/auth';
+import { default as userService } from '../services/Resource/UserService';
 import { User } from '../db/entity/User';
+import { ApiRequest, ApiResponse } from '../http';
+import { apiResponseHandler } from '../http/api-response-handler';
 express().use(json());
 
-router.get('/', async (request, response) => {
+router.get('/', auth, async (request: ApiRequest, response: ApiResponse) => {
   logger.debug(request.body);
   const users = await userService.getUsers(request.body);
   logger.debug(users);
@@ -21,14 +24,10 @@ router.post('/', async (request, response) => {
     const user: User = await userService.createUser(request.body);
     const token = await user.generateAuthToken();
     logger.debug(user);
-    response.header('x-auth-token', token).send({
-      data: user,
-    });
-  } catch (e) {
-    logger.error(e);
-    response.send({
-      error: e.message,
-    });
+    response.header('x-auth-token', token);
+    apiResponseHandler.send(response, user, headers);
+  } catch (ex) {
+    apiResponseHandler.error(response, ex);
   }
 });
 
@@ -50,7 +49,7 @@ router.patch('/:id', async (request, response) => {
     let user = await userService.getUser(request.param('id'));
 
     if (!user) {
-      throw new LookupError();
+      throw new ResourceQueryError();
     }
 
     user = await userService.updateUser(user, request.body);
@@ -58,7 +57,7 @@ router.patch('/:id', async (request, response) => {
       data: user,
     });
   } catch (e) {
-    if (e instanceof LookupError) {
+    if (e instanceof ResourceQueryError) {
       response.status(404).send({
         error: 'User not found!',
       });

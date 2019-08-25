@@ -1,1 +1,1 @@
-import { UserService } from "../../services/UserService";
+import { UserService } from "../../services/Resource/UserService";

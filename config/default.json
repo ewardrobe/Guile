@@ -1,5 +1,6 @@
 {
   "serverName": "localhost",
   "port": 3000,
-  "database": "development"
+  "database": "development",
+  "jwtSecret": "jwtSecret"
 }

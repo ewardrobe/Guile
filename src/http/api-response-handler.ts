@@ -11,15 +11,16 @@ class ApiResponseHandler {
     public error(response: ApiResponse, error: Error): void {
         let message = error.message;
         let statusCode = 500;
+        this.logger.error(error);
 
         if (error instanceof AppError) {
-            this.logger.error(error.getInternalMessage());
             statusCode = error.getStatusCode();
+            if (error.getInternalMessage()) {
+                this.logger.error(error.getInternalMessage());
+            }
         } else {
             message = 'An unknown error has occured';
         }
-
-        this.logger.error(error.message);
 
         response.status(statusCode).send({
             status: statusCode,

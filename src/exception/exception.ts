@@ -24,7 +24,15 @@ export class AppError extends Error {
     }
 }
 
-export class ResourceQueryError extends AppError {
+export class AuthenticaionError extends AppError {
+
+}
+
+export class ResourceNotFoundError extends AppError {
+
+}
+
+export class InvalidAuthTokenError extends AppError {
 
 }
 
@@ -35,7 +43,7 @@ class ErrorHandler {
     }
 
     private processError(error: Error, errorMessage: string): AppError {
-        this.logger.error(error.message);
+        this.logger.error(error);
         if (error instanceof AppError) {
             return error;
         } else {

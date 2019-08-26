@@ -1,12 +1,8 @@
 import { User } from "../../db/entity/User";
 import bcrypt from 'bcrypt';
-import { errorHandler, AppError } from "../../exception/exception";
+import { errorHandler, AppError, AuthenticaionError } from "../../exception/exception";
 import { default as logger, LogInterface } from "../../logger/Log";
 import { default as userService, UserService, UserQuery } from "../Resource/UserService";
-
-export class AuthenticaionError extends AppError {
-
-}
 
 export class UserAuthenticationService {
   private logger: LogInterface;
@@ -17,12 +13,11 @@ export class UserAuthenticationService {
   }
 
   public async authenticate(request: UserQuery): Promise<User> {
-
-    if (!request.email || !request.password) {
-      throw new AuthenticaionError('Email or Password is invalid or empty');
-    }
-
     try {
+      if (!request.email || !request.password) {
+        throw new AuthenticaionError('Invalid email or password');
+      }
+      
       const user = await this.userService.getUserByEmail(request.email);
       const validPassword = await bcrypt.compare(request.password, user.password);
       

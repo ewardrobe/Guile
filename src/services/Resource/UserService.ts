@@ -1,7 +1,7 @@
 import { Connection } from "typeorm";
 import dbConnection from "../../db/connect";
 import { User } from "../../db/entity/User";
-import { ResourceQueryError } from "../../exception/exception";
+import { ResourceNotFoundError, errorHandler } from "../../exception/exception";
 import { default as logger, LogInterface } from "../../logger/Log";
 import { createValidator, updateValidator } from "../../validator/user";
 
@@ -24,38 +24,40 @@ export class UserService {
   public async setDbConnection(connection: Promise<Connection>): Promise<void> {
     try {
       this.dbConnection = await connection;
-    } catch (e) {
-      throw e;
+    } catch (ex) {
+      errorHandler.processAndThrowCaughtError(ex);
     }
   }
 
   public async getUser(id: string): Promise<User> {
     try {
-      return this.dbConnection.getRepository(User).findOne(id);
+      const user = await this.dbConnection.getRepository(User).findOne(id);
+      this.logger.debug(user);
+      return user;
     } catch (ex) {
-      this.logger.error(ex.message);
-      throw new ResourceQueryError("User not found!");
+      errorHandler.processAndThrowCaughtError(ex);
     }
   }
 
   public async getUserByEmail(email: string) {
     try {
-      return this.dbConnection.getRepository(User).findOne({
+      const user = await this.dbConnection.getRepository(User).findOne({
         where: {
           email: email
         }
       });
+
+      return user;
     } catch (ex) {
-      this.logger.error(ex.message);
-      throw new ResourceQueryError("User not found!");
+      errorHandler.processAndThrowCaughtError(ex);
     }
   }
 
   public async getUsers(query: object): Promise<User[]> {
     try {
       return this.dbConnection.getRepository(User).find(query);
-    } catch (e) {
-      this.logger.error(e.message);
+    } catch (ex) {
+      errorHandler.processAndThrowCaughtError(ex);
     }
   }
  

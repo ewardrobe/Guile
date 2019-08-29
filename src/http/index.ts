@@ -1,9 +1,13 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 
-export interface ApiRequest extends Request {
+export interface AppRequest extends Request {
     user: any;
 }
 
-export interface ApiResponse extends Response {
+export interface AppResponse extends Response {
+    
+}
+
+export interface AppNextFunction extends NextFunction {
     
 }

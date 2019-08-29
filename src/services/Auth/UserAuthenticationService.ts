@@ -14,7 +14,7 @@ export class UserAuthenticationService {
 
   public async authenticate(request: UserQuery): Promise<User> {
     try {
-      if (!request.email || !request.password) {
+      if (typeof request.email !== 'string' || typeof request.password !== 'string') {
         throw new AuthenticaionError('Invalid email or password');
       }
       

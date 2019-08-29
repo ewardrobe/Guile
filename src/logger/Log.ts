@@ -1,4 +1,30 @@
-import debug from 'debug';
+import winston from 'winston';
+
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+        winston.format.simple(),
+      ),
+    exceptionHandlers: [
+        new winston.transports.File({ filename: 'logs/exceptions.log' })
+    ],
+    transports: [
+        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'logs/info.log', level: 'info' }),
+        new winston.transports.File({ filename: 'logs/debug.log', level: 'debug' }),
+        new winston.transports.File({ filename: 'logs/combined.log' })
+    ]
+});
+
+if (process.env.NODE_ENV !== 'production') {
+    logger.add(new winston.transports.Console({
+        format: winston.format.simple()
+    }));
+}
+
+
 
 export interface LogInterface {
     debug(message: any): void;
@@ -8,28 +34,28 @@ export interface LogInterface {
 }
 
 class Log implements LogInterface {
-    public logger: debug.Debug;
-    constructor(Debug: debug.Debug) {
+    public logger: winston.Logger;
+    constructor(Debug: winston.Logger) {
         this.logger = Debug;
     }
 
     public debug(message: any): void {
-        this.logger('app:debug')(message);
+        this.logger.debug(message);
     }
 
     public error(message: any): void {
-        this.logger('app:error')(message);
+        this.logger.error(message);
     }
 
     public info(message: any): void {
-        this.logger('app:info')(message);
+        this.logger.info(message);
     }
 
     public warn(message: any): void {
-        this.logger('app:warn')(message);
+        this.logger.warn(message);
     }
 }
 
-const Logger = new Log(debug);
+const Logger = new Log(logger);
 
 export default Logger;

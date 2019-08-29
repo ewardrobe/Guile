@@ -3,6 +3,7 @@ import { default as Logger, LogInterface } from "../logger/Log";
 export class AppError extends Error {
     private internalMessage: string = null;
     private statusCode: number = 500;
+
     public getStatusCode() {
         return this.statusCode;
     }
@@ -29,7 +30,6 @@ export class AuthenticaionError extends AppError {
 }
 
 export class ResourceNotFoundError extends AppError {
-
 }
 
 export class InvalidAuthTokenError extends AppError {
@@ -51,11 +51,11 @@ class ErrorHandler {
         }
     }
 
-    public processAndThrowCaughtError(error: Error, errorMessage: string = 'An error has occured'): void {
+    public processAndThrowCaughtError(error: Error, errorMessage: string = 'An unknown error has occured'): void {
         throw this.processError(error, errorMessage);
     }
 
-    public processAndReturnCaughtError(error: Error, errorMessage: string = 'An error has occured'): AppError {
+    public processAndReturnCaughtError(error: Error, errorMessage: string = 'An unknown error has occured'): AppError {
         return this.processError(error, errorMessage);
     }
 }

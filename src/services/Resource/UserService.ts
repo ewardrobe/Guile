@@ -22,25 +22,18 @@ export class UserService {
   }
 
   public async setDbConnection(connection: Promise<Connection>): Promise<void> {
-    try {
-      this.dbConnection = await connection;
-    } catch (ex) {
-      errorHandler.processAndThrowCaughtError(ex);
-    }
+    this.dbConnection = await connection;
   }
 
   public async getUser(id: string): Promise<User> {
-    try {
       const user = await this.dbConnection.getRepository(User).findOne(id);
       this.logger.debug(user);
+      
       return user;
-    } catch (ex) {
-      errorHandler.processAndThrowCaughtError(ex);
-    }
   }
 
   public async getUserByEmail(email: string) {
-    try {
+      this.logger.debug(this.dbConnection);
       const user = await this.dbConnection.getRepository(User).findOne({
         where: {
           email: email
@@ -48,43 +41,27 @@ export class UserService {
       });
 
       return user;
-    } catch (ex) {
-      errorHandler.processAndThrowCaughtError(ex);
-    }
   }
 
   public async getUsers(query: object): Promise<User[]> {
-    try {
-      return this.dbConnection.getRepository(User).find(query);
-    } catch (ex) {
-      errorHandler.processAndThrowCaughtError(ex);
-    }
+    return this.dbConnection.getRepository(User).find(query);
   }
  
   public async createUser(user: object): Promise<User> {
-    try {
       await createValidator.validate(user);
       const repository = this.dbConnection.getRepository(User);
       const userEntity: User = repository.create(user);
+
       return repository.save(userEntity);
-    } catch (e) {
-      this.logger.error(e.message);
-      throw e;
-    }
   }
 
   public async updateUser(userEntity: User, data: object): Promise<User> {
-    try {
       await updateValidator.validate(data);
       const repository = this.dbConnection.getRepository(User);
       const updatedUser = await repository.merge(userEntity, data);
       await repository.save(updatedUser);
 
       return userEntity;
-    } catch (e) {
-      this.logger.error(e.message);
-      throw e;
-    }
   }
 }
 

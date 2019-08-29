@@ -1,6 +1,6 @@
 import Logger, { LogInterface } from "../logger/Log";
 import { AppError } from "../exception/exception";
-import { ApiResponse } from ".";
+import { AppResponse } from ".";
 
 class ApiResponseHandler {
     private logger: LogInterface;
@@ -8,7 +8,7 @@ class ApiResponseHandler {
         this.logger = logger;
     }
 
-    public error(response: ApiResponse, error: Error): void {
+    public error(response: AppResponse, error: Error): void {
         let message = error.message;
         let statusCode = 500;
         this.logger.error(error);
@@ -28,7 +28,7 @@ class ApiResponseHandler {
         });
     }
 
-    public send(response: ApiResponse, data: any): void {
+    public send(response: AppResponse, data: any): void {
         response.send({
             data: data
         });

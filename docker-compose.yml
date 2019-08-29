@@ -10,7 +10,7 @@ services:
       - "3000:3000"
     depends_on:
       - mongo
-    command: npm run-script dev
+    command: bash -c "yarn && npm run-script dev"
     volumes:
       - ./:/usr/src/app
     environment:
@@ -26,8 +26,3 @@ services:
       - 27017:27017
     volumes:
       - database:/data/db
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - 8080:8080

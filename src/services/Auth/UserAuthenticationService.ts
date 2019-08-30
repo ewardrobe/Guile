@@ -19,6 +19,11 @@ export class UserAuthenticationService {
       }
       
       const user = await this.userService.getUserByEmail(request.email);
+
+      if (!user) {
+        throw new AuthenticaionError('Invalid email or password').setStatusCode(400);
+      }
+
       const validPassword = await bcrypt.compare(request.password, user.password);
       
       if (!validPassword) {

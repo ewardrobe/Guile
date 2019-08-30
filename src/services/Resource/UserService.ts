@@ -1,7 +1,6 @@
 import { Connection } from "typeorm";
 import dbConnection from "../../db/connect";
 import { User } from "../../db/entity/User";
-import { ResourceNotFoundError, errorHandler } from "../../exception/exception";
 import { default as logger, LogInterface } from "../../logger/Log";
 import { createValidator, updateValidator } from "../../validator/user";
 

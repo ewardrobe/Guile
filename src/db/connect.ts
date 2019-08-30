@@ -4,7 +4,7 @@ import { createConnection, getConnectionOptions, Connection } from 'typeorm';
 import logger from '../logger/Log';
 
 const dbConnection = async (): Promise<Connection> => {
-    logger.debug(config.get('database'));
+    logger.info(config.get('database'));
     const connectionOptions = await getConnectionOptions(config.get('database'));
     return createConnection(connectionOptions);
 };

@@ -1,12 +1,14 @@
 import winston from 'winston';
 
+const myFormat = winston.format.printf(error => {
+    if(error instanceof Error) {
+        return `${error.timestamp} [${error.label}] ${error.level}: ${error.message} ${error.stack}`;
+    }
+    return `${error.timestamp} [${error.label}] ${error.level}: ${error.message}`;
+});
+
 const logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json(),
-        winston.format.simple(),
-      ),
+    format: myFormat,
     exceptionHandlers: [
         new winston.transports.File({ filename: 'logs/exceptions.log' })
     ],

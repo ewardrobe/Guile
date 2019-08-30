@@ -10,8 +10,9 @@ router.post('/', async (request: AppRequest, response: AppResponse) => {
     logger.debug(request.body);
     const user = await AuthenticationService.authenticate(request.body);
     const token = await user.generateAuthToken();
-    response.header('x-auth-token', token);
-    apiResponseHandler.send(response, user);
+    response.send({ 
+        token: token
+     });
 });
 
 export default router;

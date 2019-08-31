@@ -1,0 +1,8 @@
+entity: User
+items:
+  user0:
+    username: admin
+    firstName: Super
+    lastName: Admin
+    dateOfBirth: 1980-10-10
+    email: admin@e-warddrobe.com

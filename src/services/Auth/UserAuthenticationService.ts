@@ -13,27 +13,23 @@ export class UserAuthenticationService {
   }
 
   public async authenticate(request: UserQuery): Promise<User> {
-    try {
-      if (typeof request.email !== 'string' || typeof request.password !== 'string') {
-        throw new AuthenticaionError('Invalid email or password');
-      }
-      
-      const user = await this.userService.getUserByEmail(request.email);
-
-      if (!user) {
-        throw new AuthenticaionError('Invalid email or password').setStatusCode(400);
-      }
-
-      const validPassword = await bcrypt.compare(request.password, user.password);
-      
-      if (!validPassword) {
-        throw new AuthenticaionError('Invalid email or password').setStatusCode(400);
-      }
-
-      return user;
-    } catch (ex) {
-      errorHandler.processAndThrowCaughtError(ex, 'An error has occured during athentication');
+    if (typeof request.email !== 'string' || typeof request.password !== 'string') {
+      throw new AuthenticaionError('Invalid email or password');
     }
+    
+    const user = await this.userService.getUserByEmail(request.email);
+
+    if (!user) {
+      throw new AuthenticaionError('Invalid email or password').setStatusCode(400);
+    }
+
+    const validPassword = await bcrypt.compare(request.password, user.password);
+    
+    if (!validPassword) {
+      throw new AuthenticaionError('Invalid email or password').setStatusCode(400);
+    }
+
+    return user;
   }
 }
 

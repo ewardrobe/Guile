@@ -11,13 +11,9 @@ class ApiResponseHandler {
     public error(response: AppResponse, error: Error): void {
         let message = error.message;
         let statusCode = 500;
-        this.logger.error(error);
 
         if (error instanceof AppError) {
             statusCode = error.getStatusCode();
-            if (error.getInternalMessage()) {
-                this.logger.error(error.getInternalMessage());
-            }
         } else {
             message = 'An unknown error has occured';
         }

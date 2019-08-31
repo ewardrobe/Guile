@@ -1,22 +1,24 @@
 import winston from 'winston';
 
-const myFormat = winston.format.printf(error => {
-    if(error instanceof Error) {
-        return `${error.timestamp} [${error.label}] ${error.level}: ${error.message} ${error.stack}`;
+const myFormat = winston.format.printf(info => {
+    if(info instanceof Error) {
+        return `${info.timestamp} [${info.label}] ${info.level}: ${info.message} ${info.stack}`;
     }
-    return `${error.timestamp} [${error.label}] ${error.level}: ${error.message}`;
+    return `${info.timestamp} [${info.label}] ${info.level}: ${info.message}`;
 });
 
 const logger = winston.createLogger({
-    format: myFormat,
+    format: winston.format.combine(
+        winston.format.label({ label: 'ewardrobe' }),
+        winston.format.timestamp(),
+        winston.format.splat(),
+        myFormat
+    ),
     exceptionHandlers: [
         new winston.transports.File({ filename: 'logs/exceptions.log' })
     ],
     transports: [
-        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
-        new winston.transports.File({ filename: 'logs/info.log', level: 'info' }),
-        new winston.transports.File({ filename: 'logs/debug.log', level: 'debug' }),
-        new winston.transports.File({ filename: 'logs/combined.log' })
+        new winston.transports.File({ filename: 'logs/combined.log', level: 'info' })
     ]
 });
 
@@ -25,8 +27,6 @@ if (process.env.NODE_ENV !== 'production') {
         format: winston.format.simple()
     }));
 }
-
-
 
 export interface LogInterface {
     debug(message: any): void;

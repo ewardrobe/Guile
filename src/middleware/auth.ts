@@ -8,14 +8,12 @@ import { apiResponseHandler } from '../http/api-response-handler';
 
 export default async (request: AppRequest, response: AppResponse, next: any) => {
   
-  if (typeof request.header('Authorization') !== 'string') {
+  if (typeof request.header('Authorization') !== 'string') {  
     throw new InvalidAuthTokenError('No Authorization headers sent!').setStatusCode(401);
   }
 
   const authrorizationHeader = request.header('Authorization').trim();
-  Logger.debug(authrorizationHeader);
   const token = authrorizationHeader.replace('Bearer ', '');
-  Logger.debug(token);
 
   if (!token) {
     throw new AuthenticaionError('Access denied. No token provided.').setStatusCode(401);

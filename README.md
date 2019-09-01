@@ -19,7 +19,7 @@ Open up the root of your project in a terminal and execute the below command:
 $ docker-compose up
 ```
 
-This will take a few minute on first load, but once complete the e-wardrobe api ready for use.
+This will take a few minute on first load, but once complete the e-wardrobe api will be ready for use.
 
 
 

@@ -21,7 +21,7 @@ $ docker-compose up
 
 This will take a few minute on first load, but once complete the e-wardrobe api will be ready for use.
 
-
+Use Posmtan to interact with the API at [localhost:3000](http://localhost:3000)
 
 
 

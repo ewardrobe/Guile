@@ -18,7 +18,6 @@ export interface UserQuery {
 export class UserService {
   private logger: LogInterface;
   private dbConnection: Connection;
-  private userRepository: UserRepository;
   constructor(connection: Promise<Connection>, Log: LogInterface) {
     this.setDbConnection(connection);
     this.logger = Log;
@@ -54,8 +53,6 @@ export class UserService {
       const usernameExists = await this.getUserByEmail(user.email);
       
       if (userEmailExists) {
-        console.log('Comon baby');
-        console.log(userEmailExists);
         throw new AppError(`User with email '${user.email}' already exists`).setStatusCode(400);
       }
 

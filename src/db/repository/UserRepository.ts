@@ -22,7 +22,7 @@ export class UserRepository extends MongoRepository<User> {
     }
 
     filterUser(user: User): User {
-        return _.omit(user, 'password');
+        return user ? _.omit(user, 'password') : null;
     }
 
 }

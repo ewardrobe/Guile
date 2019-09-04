@@ -10,6 +10,7 @@ import {
   ObjectID,
   ObjectIdColumn,
   UpdateDateColumn,
+  AfterLoad,
 } from 'typeorm';
 
 @Entity()
@@ -25,26 +26,27 @@ export class User extends BaseEntity {
 
   @Column({
     length: 150,
-    type: 'varchar',
+    type: 'varchar'
   })
   public lastName: string;
 
   @Column({
     length: 150,
     type: 'varchar',
-    unique: true,
+    unique: true
   })
   public username: string;
 
   @Column({
     length: 150,
-    type: 'varchar',
+    type: 'varchar'
   })
   public email: string;
 
   @Column({
     length: 150,
     type: 'varchar',
+    select: false,
   })
   public password: string;
 
@@ -70,7 +72,7 @@ export class User extends BaseEntity {
 
     return token;
   }
-
+  
   @BeforeInsert()
   public async hashPassword(): Promise<void> {
     if (this.password) {

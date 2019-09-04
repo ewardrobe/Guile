@@ -32,7 +32,7 @@
     "application/json"
   ],
   "paths": {
-    "/user": {
+    "/users": {
       "get": {
         "tags": [
           "Users"
@@ -79,7 +79,7 @@
         }
       }
     },
-    "/user/{id}": {
+    "/users/{id}": {
       "parameters": [
         {
           "name": "id",
@@ -151,36 +151,11 @@
               "$ref": "#/definitions/User"
             }
           },
+          "401": {
+            "description": "Unauthorised request."
+          },
           "400": {
             "description": "Failed. Bad post data."
-          },
-          "404": {
-            "description": "Failed. Cat not found."
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete user with given ID",
-        "tags": [
-          "User"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Delete User with id",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/id"
-            }
           },
           "404": {
             "description": "Failed. User not found."
@@ -203,14 +178,22 @@
         "id": {
           "type": "string"
         },
-        "name": {
+        "firstName": {
           "type": "string"
         },
-        "isHungry": {
-          "type": "boolean"
-        },
-        "lastFedDate": {
+        "lastName": {
           "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "writeOnly": true
+        },
+        "email": {
+          "type": "string",
+          "unique": "string"
         }
       }
     },

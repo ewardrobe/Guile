@@ -4,6 +4,8 @@ import { User } from "../../db/entity/User";
 import { default as logger, LogInterface } from "../../logger/Log";
 import { createValidator, updateValidator } from "../../validator/user";
 import { AppError } from "../../exception/exception";
+import {UserRepository} from "../../db/repository/UserRepository";
+import _ from 'underscore';
 
 export interface UserQuery {
   firstName?: string;
@@ -16,6 +18,7 @@ export interface UserQuery {
 export class UserService {
   private logger: LogInterface;
   private dbConnection: Connection;
+  private userRepository: UserRepository;
   constructor(connection: Promise<Connection>, Log: LogInterface) {
     this.setDbConnection(connection);
     this.logger = Log;
@@ -26,60 +29,49 @@ export class UserService {
   }
 
   public async getUser(id: string): Promise<User> {
-      const user = await this.dbConnection.getRepository(User).findOne(id);
-      this.logger.debug(user);
+      const user = await this.dbConnection.getCustomRepository(UserRepository).findOneById(id);
       
       return user;
   }
 
-  public async getUserBy(query: any) {
-    const user = await this.dbConnection.getRepository(User).findOne({
+  public async getUserBy(query: any): Promise<User> {
+    return this.dbConnection.getCustomRepository(UserRepository).findOne({
       where: query
     });
-
-    return user;
   }
 
-  public async getUserByEmail(email: string) {
-    this.logger.debug(this.dbConnection);
-    const user = await this.dbConnection.getRepository(User).findOne({
-      where: {
-        email: email
-      }
-    });
-
-    return user;
+  public async getUserByEmail(email: string): Promise<User> {
+    return this.dbConnection.getCustomRepository(UserRepository).findOneByEmail(email);
   }
 
   public async getUsers(query: object): Promise<User[]> {
-    return this.dbConnection.getRepository(User).find(query);
+    return this.dbConnection.getCustomRepository(UserRepository).find(query);
   }
  
   public async createUser(user: UserQuery): Promise<User> {
       await createValidator.validate(user);
-      
-      const repository = this.dbConnection.getRepository(User);
       const userEmailExists = await this.getUserByEmail(user.email);
       const usernameExists = await this.getUserByEmail(user.email);
       
       if (userEmailExists) {
-        throw new AppError(`User with email '${user.email}' already exists`);
+        console.log('Comon baby');
+        console.log(userEmailExists);
+        throw new AppError(`User with email '${user.email}' already exists`).setStatusCode(400);
       }
 
       if (usernameExists) {
-        throw new AppError(`Username '${user.username}' has already been taken`);
+        throw new AppError(`Username '${user.username}' has already been taken`).setStatusCode(400);
       }
 
-      const userEntity: User = repository.create(user);
+      const userEntity: User = this.dbConnection.getCustomRepository(UserRepository).create(user);
 
-      return repository.save(userEntity);
+      return this.dbConnection.getCustomRepository(UserRepository).save(userEntity);
   }
 
   public async updateUser(userEntity: User, data: object): Promise<User> {
       await updateValidator.validate(data);
-      const repository = this.dbConnection.getRepository(User);
-      const updatedUser = await repository.merge(userEntity, data);
-      await repository.save(updatedUser);
+      const updatedUser = await this.dbConnection.getCustomRepository(UserRepository).merge(userEntity, data);
+      await this.dbConnection.getCustomRepository(UserRepository).save(updatedUser);
 
       return userEntity;
   }

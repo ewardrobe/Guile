@@ -44,7 +44,7 @@ export class UserService {
   }
 
   public async getUsers(query: object): Promise<User[]> {
-    return this.dbConnection.getCustomRepository(UserRepository).find(query);
+    return this.dbConnection.getCustomRepository(UserRepository).findAll(query);
   }
  
   public async createUser(user: UserQuery): Promise<User> {

@@ -9,6 +9,10 @@ export class UserRepository extends MongoRepository<User> {
         return this.filterUser(await this.findOne(id));
     }
 
+    async findAll(query: object) {
+        return _.map(await this.find(query), this.filterUser); 
+    }
+
     async findOneByUsername(username: string): Promise<User> {
         return this.filterUser(await this.findOne({ username }));
     }

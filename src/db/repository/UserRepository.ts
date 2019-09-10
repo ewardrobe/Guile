@@ -6,27 +6,22 @@ import _ from 'underscore';
 export class UserRepository extends MongoRepository<User> {
 
     async findOneById(id: string): Promise<User> {
-        return this.filterUser(await this.findOne(id));
+        return await this.findOne(id);
     }
 
     async findAll(query: object) {
-        return _.map(await this.find(query), this.filterUser); 
+        return await this.find(query); 
     }
 
     async findOneByUsername(username: string): Promise<User> {
-        return this.filterUser(await this.findOne({ username }));
+        return await this.findOne({ username });
     }
 
     async findOneByEmail(email: string): Promise<User> {
-        return this.filterUser(await this.findOne({ email }));
+        return await this.findOne({ email });
     }
 
     async findOneByName(firstName: string, lastName: string): Promise<User> {
         return this.findOne({ firstName, lastName });
     }
-
-    filterUser(user: User): User {
-        return user ? _.omit(user, 'password') : null;
-    }
-
 }

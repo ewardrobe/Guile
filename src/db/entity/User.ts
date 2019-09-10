@@ -72,6 +72,11 @@ export class User extends BaseEntity {
 
     return token;
   }
+
+  @AfterLoad()
+  public clearPassword() {
+    this.password = null;
+  }
   
   @BeforeInsert()
   public async hashPassword(): Promise<void> {

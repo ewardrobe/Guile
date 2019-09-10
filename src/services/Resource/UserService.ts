@@ -30,21 +30,27 @@ export class UserService {
   public async getUser(id: string): Promise<User> {
       const user = await this.dbConnection.getCustomRepository(UserRepository).findOneById(id);
       
-      return user;
+      return this.filterUser(user);
   }
 
   public async getUserBy(query: any): Promise<User> {
-    return this.dbConnection.getCustomRepository(UserRepository).findOne({
+    const user = await this.dbConnection.getCustomRepository(UserRepository).findOne({
       where: query
     });
+
+    return this.filterUser(user);
   }
 
   public async getUserByEmail(email: string): Promise<User> {
-    return this.dbConnection.getCustomRepository(UserRepository).findOneByEmail(email);
+    const user = await this.dbConnection.getCustomRepository(UserRepository).findOneByEmail(email);
+
+    return this.filterUser(user);
   }
 
   public async getUsers(query: object): Promise<User[]> {
-    return this.dbConnection.getCustomRepository(UserRepository).findAll(query);
+    const users = await this.dbConnection.getCustomRepository(UserRepository).findAll(query);
+
+    return _.map(users, this.filterUser); 
   }
  
   public async createUser(user: UserQuery): Promise<User> {
@@ -61,8 +67,9 @@ export class UserService {
       }
 
       const userEntity: User = this.dbConnection.getCustomRepository(UserRepository).create(user);
+      const savedUser = await this.dbConnection.getCustomRepository(UserRepository).save(userEntity);
 
-      return this.dbConnection.getCustomRepository(UserRepository).save(userEntity);
+      return this.filterUser(savedUser);
   }
 
   public async updateUser(userEntity: User, data: object): Promise<User> {
@@ -70,7 +77,11 @@ export class UserService {
       const updatedUser = await this.dbConnection.getCustomRepository(UserRepository).merge(userEntity, data);
       await this.dbConnection.getCustomRepository(UserRepository).save(updatedUser);
 
-      return userEntity;
+      return this.filterUser(userEntity);
+  }
+
+  public filterUser(user: User): User {
+    return user ? _.omit(user, 'password') : null;
   }
 }
 

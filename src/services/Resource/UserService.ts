@@ -28,9 +28,9 @@ export class UserService {
   }
 
   public async getUser(id: string): Promise<User> {
-      const user = await this.dbConnection.getCustomRepository(UserRepository).findOneById(id);
-      
-      return this.filterUser(user);
+    const user = await this.dbConnection.getCustomRepository(UserRepository).findOneById(id);
+    
+    return user;
   }
 
   public async getUserBy(query: any): Promise<User> {
@@ -38,19 +38,19 @@ export class UserService {
       where: query
     });
 
-    return this.filterUser(user);
+    return user;
   }
 
   public async getUserByEmail(email: string): Promise<User> {
     const user = await this.dbConnection.getCustomRepository(UserRepository).findOneByEmail(email);
 
-    return this.filterUser(user);
+    return user;
   }
 
   public async getUsers(query: object): Promise<User[]> {
     const users = await this.dbConnection.getCustomRepository(UserRepository).findAll(query);
 
-    return _.map(users, this.filterUser); 
+    return users; 
   }
  
   public async createUser(user: UserQuery): Promise<User> {
@@ -69,7 +69,7 @@ export class UserService {
       const userEntity: User = this.dbConnection.getCustomRepository(UserRepository).create(user);
       const savedUser = await this.dbConnection.getCustomRepository(UserRepository).save(userEntity);
 
-      return this.filterUser(savedUser);
+      return savedUser;
   }
 
   public async updateUser(userEntity: User, data: object): Promise<User> {
@@ -77,11 +77,7 @@ export class UserService {
       const updatedUser = await this.dbConnection.getCustomRepository(UserRepository).merge(userEntity, data);
       await this.dbConnection.getCustomRepository(UserRepository).save(updatedUser);
 
-      return this.filterUser(userEntity);
-  }
-
-  public filterUser(user: User): User {
-    return user ? _.omit(user, 'password') : null;
+      return userEntity;
   }
 }
 

@@ -60,4 +60,8 @@ class Log implements LogInterface {
 
 const Logger = new Log(logger);
 
+process.on('unhandledRejection', (reason, promise) => {
+    logger.error(reason);
+})
+
 export default Logger;

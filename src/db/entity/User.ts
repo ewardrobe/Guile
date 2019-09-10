@@ -11,6 +11,7 @@ import {
   ObjectIdColumn,
   UpdateDateColumn,
   AfterLoad,
+  AfterInsert,
 } from 'typeorm';
 
 @Entity()
@@ -74,8 +75,9 @@ export class User extends BaseEntity {
   }
 
   @AfterLoad()
+  @AfterInsert()
   public clearPassword() {
-    this.password = null;
+    this.password = undefined;
   }
   
   @BeforeInsert()

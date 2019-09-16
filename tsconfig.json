@@ -16,7 +16,8 @@
       "esModuleInterop": true
    },
    "include": [
-      "src/**/*.ts"
+      "src/**/*.ts",
+      "src/**/*.yaml"
    ],
    "exclude": [
       "node_modules"

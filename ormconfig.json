@@ -30,6 +30,7 @@
       "database": "e-wardrobe",
       "synchronize": true,
       "logging": true,
+      "dropSchema": true,
       "entities": [
          "src/db/entity/**/*.ts"
       ],

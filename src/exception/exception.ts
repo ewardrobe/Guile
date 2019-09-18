@@ -1,4 +1,5 @@
 import { default as Logger, LogInterface } from "../logger/Log";
+import { ValidationError } from "@hapi/joi";
 
 export class AppError extends Error {
     private internalMessage: string = null;
@@ -44,11 +45,24 @@ class ErrorHandler {
 
     private processError(error: Error, errorMessage: string): AppError {
         this.logger.error(error);
-        if (error instanceof AppError) {
+        
+        if (this.isJoiError(error)) {
+            return new AppError(error.message).setStatusCode(400);
+        } else if (error instanceof AppError) {
             return error;
         } else {
             return new AppError(errorMessage).setInternalMessage(error.message);
         }
+    }
+
+    private isJoiError(error: any) {
+        if (typeof error.isJoi !== undefined && typeof error.name !== undefined) {
+            if (error.isJoi === true && error.name === 'ValidationError') {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     public processAndThrowCaughtError(error: Error, errorMessage: string = 'An unknown error has occured'): void {

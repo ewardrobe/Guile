@@ -22,8 +22,8 @@ export class UserAuthenticationService {
     if (!user) {
       throw new AuthenticaionError('Invalid email or password').setStatusCode(400);
     }
-
-    const validPassword = await bcrypt.compare(request.password, user.password);
+    
+    const validPassword = await bcrypt.compare(request.password, user.getPasswordHash());
     
     if (!validPassword) {
       throw new AuthenticaionError('Invalid email or password').setStatusCode(400);

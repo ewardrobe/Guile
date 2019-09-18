@@ -25,6 +25,8 @@ export class User extends BaseEntity {
   })
   public firstName: string;
 
+  private passwordHash: string;
+
   @Column({
     length: 150,
     type: 'varchar'
@@ -77,7 +79,12 @@ export class User extends BaseEntity {
   @AfterLoad()
   @AfterInsert()
   public clearPassword() {
+    this.passwordHash = this.password;
     this.password = undefined;
+  }
+
+  public getPasswordHash() {
+    return this.passwordHash;
   }
   
   @BeforeInsert()

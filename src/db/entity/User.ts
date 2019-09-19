@@ -14,6 +14,10 @@ import {
   AfterInsert,
 } from 'typeorm';
 
+let SensitiveUserData = {
+  passwordHash: null
+};
+
 @Entity()
 export class User extends BaseEntity {
   @ObjectIdColumn()
@@ -24,8 +28,6 @@ export class User extends BaseEntity {
     type: 'varchar',
   })
   public firstName: string;
-
-  private passwordHash: string;
 
   @Column({
     length: 150,
@@ -79,12 +81,12 @@ export class User extends BaseEntity {
   @AfterLoad()
   @AfterInsert()
   public clearPassword() {
-    this.passwordHash = this.password;
+    SensitiveUserData.passwordHash = this.password;
     this.password = undefined;
   }
 
   public getPasswordHash() {
-    return this.passwordHash;
+    return SensitiveUserData.passwordHash;
   }
   
   @BeforeInsert()

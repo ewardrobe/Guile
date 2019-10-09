@@ -12,13 +12,13 @@
           "port": 5858,
           "preLaunchTask": "tsc-watch",
           "restart": true,
-          "localRoot": "${workspaceFolder}/build",
+          "localRoot": "${workspaceFolder}/",
           "remoteRoot": "/usr/src/app",
           "outFiles": [
             "${workspaceFolder}/build/**/*.js"
           ],
           "skipFiles": [
-            "<node_internals>/**/*.js",
+            "node_modules/**/*.js",
           ]
         }
       ]

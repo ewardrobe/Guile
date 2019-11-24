@@ -9,7 +9,8 @@
     "lint": "eslint \"src/**\"",
     "watch": "tsc -w -p ./",
     "watch-win": "tsc -w -p C:\\Users\\peter\\Documents\\e-wardrobe-api",
-    "dev": "nodemon --legacy-watch --watch ./build --inspect=0.0.0.0:5858 --nolazy ./build/index.js",
+    "debug": "nodemon --watch ./build --inspect=0.0.0.0:5858 --nolazy ./build/index.js",
+    "dev": "nodemon -L --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
     "start": "node build/index.js"
   },
   "author": "peter <peter.atkins85@gmail.com>",
@@ -45,7 +46,7 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.18",
+    "@babel/preset-typescript": "^7.7.2",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "eslint": "^6.2.1",

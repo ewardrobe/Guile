@@ -1,7 +1,7 @@
 import config from 'config';
 import jwt from 'jsonwebtoken';
 import { AppRequest, AppResponse } from '../http';
-import { InvalidAuthTokenError, errorHandler, AppError, AuthenticaionError } from '../exception/exception';
+import { InvalidAuthTokenError, AuthenticaionError } from '../exception/exception';
 import Logger from '../logger/Log';
 import { default as UserService } from '../services/Resource/UserService';
 import { apiResponseHandler } from '../http/api-response-handler';

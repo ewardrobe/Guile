@@ -1,6 +1,6 @@
 import { User } from "../../db/entity/User";
 import bcrypt from 'bcrypt';
-import { errorHandler, AppError, AuthenticaionError } from "../../exception/exception";
+import { AuthenticaionError } from "../../exception/exception";
 import { default as logger, LogInterface } from "../../logger/Log";
 import { default as userService, UserService, UserQuery } from "../Resource/UserService";
 

@@ -4,7 +4,7 @@ import { User } from "../../db/entity/User";
 import { default as logger, LogInterface } from "../../logger/Log";
 import { createValidator, updateValidator } from "../../validator/user";
 import { AppError } from "../../exception/exception";
-import {UserRepository} from "../../db/repository/UserRepository";
+import { UserRepository } from "../../db/repository/UserRepository";
 import _ from 'underscore';
 
 export interface UserQuery {

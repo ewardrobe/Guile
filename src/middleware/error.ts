@@ -1,7 +1,7 @@
 import { apiResponseHandler } from "../http/api-response-handler";
 import { AppRequest, AppResponse, AppNextFunction } from "../http";
 import Logger from "../logger/Log";
-import { errorHandler } from "../exception/exception";
+import { errorHandler } from "../exception/exeptionHandler";
 
 export default (err: any, req: AppRequest, res: AppResponse, next: AppNextFunction) => {
     Logger.info('Middleware error triggered');

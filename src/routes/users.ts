@@ -1,6 +1,6 @@
 import express, { json, Router } from 'express';
 const router = Router();
-import { ResourceNotFoundError, AppError } from '../exception/exception';
+import { ResourceNotFoundError } from '../exception/exception';
 import logger from '../logger/Log';
 import auth from '../middleware/auth';
 import { default as userService } from '../services/Resource/UserService';

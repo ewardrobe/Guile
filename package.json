@@ -8,9 +8,8 @@
     "test": "jest",
     "lint": "eslint \"src/**\"",
     "watch": "tsc -w -p ./",
-    "watch-win": "tsc -w -p C:\\Users\\peter\\Documents\\e-wardrobe-api",
-    "debug": "nodemon --watch ./build --inspect=0.0.0.0:5858 --nolazy ./build/index.js",
-    "dev": "nodemon -L --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
+    "help": "node --help",
+    "dev": "nodemon -L --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec node --inspect=0.0.0.0:5858 -r ts-node/register --nolazy ./src/index.ts",
     "start": "node build/index.js"
   },
   "author": "peter <peter.atkins85@gmail.com>",

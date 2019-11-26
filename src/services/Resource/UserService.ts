@@ -2,10 +2,9 @@ import { Connection } from "typeorm";
 import dbConnection from "../../db/connect";
 import { User } from "../../db/entity/User";
 import { default as logger, LogInterface } from "../../logger/Log";
-import { createValidator, updateValidator } from "../../validator/user";
+import userRequestValidator, { UserRequestValidator } from "../../validator/UserRequestValidator";
 import { AppError } from "../../exception/exception";
 import { UserRepository } from "../../db/repository/UserRepository";
-import _ from 'underscore';
 
 export interface UserQuery {
   firstName?: string;
@@ -18,9 +17,11 @@ export interface UserQuery {
 export class UserService {
   private logger: LogInterface;
   private dbConnection: Connection;
-  constructor(connection: Promise<Connection>, Log: LogInterface) {
+  private userRequestValidator: UserRequestValidator;
+  constructor(connection: Promise<Connection>, Log: LogInterface, userRequestValidator: UserRequestValidator) {
     this.setDbConnection(connection);
     this.logger = Log;
+    this.userRequestValidator = userRequestValidator;
   }
 
   public async setDbConnection(connection: Promise<Connection>): Promise<void> {
@@ -42,19 +43,15 @@ export class UserService {
   }
 
   public async getUserByEmail(email: string): Promise<User> {
-    const user = await this.dbConnection.getCustomRepository(UserRepository).findOneByEmail(email);
-
-    return user;
+    return this.dbConnection.getCustomRepository(UserRepository).findOneByEmail(email);
   }
 
   public async getUsers(query: object): Promise<User[]> {
-    const users = await this.dbConnection.getCustomRepository(UserRepository).findAll(query);
-
-    return users; 
+    return await this.dbConnection.getCustomRepository(UserRepository).findAll(query);
   }
  
   public async createUser(user: UserQuery): Promise<User> {
-      await createValidator.validate(user);
+      this.userRequestValidator.validatePost(user);
       const userEmailExists = await this.getUserByEmail(user.email);
       const usernameExists = await this.getUserByEmail(user.email);
       
@@ -67,13 +64,11 @@ export class UserService {
       }
 
       const userEntity: User = this.dbConnection.getCustomRepository(UserRepository).create(user);
-      const savedUser = await this.dbConnection.getCustomRepository(UserRepository).save(userEntity);
-
-      return savedUser;
+      return this.dbConnection.getCustomRepository(UserRepository).save(userEntity);
   }
 
   public async updateUser(userEntity: User, data: object): Promise<User> {
-      await updateValidator.validate(data);
+      this.userRequestValidator.validatePatch(data);
       const updatedUser = await this.dbConnection.getCustomRepository(UserRepository).merge(userEntity, data);
       await this.dbConnection.getCustomRepository(UserRepository).save(updatedUser);
 
@@ -81,4 +76,4 @@ export class UserService {
   }
 }
 
-export default new UserService(dbConnection, logger);
+export default new UserService(dbConnection, logger, userRequestValidator);

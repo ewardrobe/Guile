@@ -9,19 +9,19 @@ export class UserRepository extends MongoRepository<User> {
         return await this.findOne(id);
     }
 
-    async findAll(query: object) {
-        return await this.find(query); 
+    async findAll(query: object): Promise<User[]> {
+        return await this.find(query);
     }
 
     async findOneByUsername(username: string): Promise<User> {
-        return await this.findOne({ username });
+        return await this.findOne({username});
     }
 
     async findOneByEmail(email: string): Promise<User> {
-        return await this.findOne({ email });
+        return await this.findOne({email});
     }
 
     async findOneByName(firstName: string, lastName: string): Promise<User> {
-        return this.findOne({ firstName, lastName });
+        return this.findOne({firstName, lastName});
     }
 }

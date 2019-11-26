@@ -1,0 +1,29 @@
+version: "3"
+
+volumes:
+  database:
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+      - 5858:5858
+    depends_on:
+      - mongo
+    command: bash -c "yarn && yarn run ${DOCKER_MODE}"
+    volumes:
+      - ../:/usr/src/app
+    environment:
+      - 'DEBUG=*'
+      - 'NODE_ENV=development'
+      - 'eWardobe_jwtPrivateKey=3454tgrvstwjwhnbawerq215hyqrg462q53yhgqergqewrgtgdfgbqe3aw534h'
+    links:
+      - mongo
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 29840:27017
+    volumes:
+      - database:/data/db

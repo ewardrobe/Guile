@@ -1,0 +1,25 @@
+{
+   "compilerOptions": {
+      "lib": [
+         "es5",
+         "es6"
+      ],
+      "target": "es6",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "emitDecoratorMetadata": true,
+      "resolveJsonModule": true,
+      "experimentalDecorators": true,
+      "sourceMap": true,
+      "outDir": "./build",
+      "rootDir": "./src",
+      "esModuleInterop": true
+   },
+   "include": [
+      "src/**/*.ts",
+      "src/**/*.yaml"
+   ],
+   "exclude": [
+      "node_modules"
+   ]
+}

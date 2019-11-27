@@ -1,17 +1,56 @@
-import joi from '@hapi/joi';
+import joi, {ValidationError} from '@hapi/joi';
 import {AppError} from "../exception/exception";
+
+function joiLanguage(path: string, message, joiLanguageObject: object = {}, topLevelObject: object = {}) {
+    const explodedPath = path.split('.');
+    const key = explodedPath.shift();
+
+    if (!explodedPath.values()) {
+        joiLanguageObject[explodedPath[key]] = message;
+        return joiLanguageObject;
+    }
+
+    if (!joiLanguageObject) {
+        topLevelObject = joiLanguageObject;
+    }
+
+    joiLanguageObject[explodedPath[key]] = {};
+
+    return joiLanguage(explodedPath.join('.'), message, joiLanguageObject[explodedPath[key]], topLevelObject);
+}
 
 const password = joi
     .string()
     .regex(/^[a-zA-Z0-9_\-!$&*()^£@#/.><]{3,30}$/)
     .min(9)
     .max(30)
-    .options({ language: { string: { regex: { base: 'invalid password characters' } } } });
+    .options({
+        language: {
+            string: {
+                regex: {
+                    base: 'Password must match patten (a-zA-Z0-9_\-!$&*()^£@#/.><)'
+                }
+            }
+        }
+    });
+    joiLanguage('language.string.regex.base', 'Password must match patten (a-zA-Z0-9_\-!$&*()^£@#/.><)');
+
+
+
 const username = joi
     .string()
     .regex(/^[a-zA-Z0-9-_.]{3,30}$/)
     .min(3)
-    .max(20);
+    .max(20)
+    .options({
+        language: {
+            string: {
+                regex: {
+                    base: 'Username must match patten (a-zA-Z0-9_\-!$&*()^£@#/.><)'
+                }
+            }
+        }
+    });
 
 export class UserRequestValidator {
     validatePost(post: object) {
@@ -49,8 +88,8 @@ export class UserRequestValidator {
         }
     }
 
-    formatMessage(message: string) {
-        return message.replace(/\\+/g, '')
+    formatMessage(errorMessage: string): string {
+        return errorMessage.replace(/".*"/g, '');
     }
 
     validatePatch(patch: object) {

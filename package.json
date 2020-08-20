@@ -28,7 +28,7 @@
     "@types/underscore": "^1.9.2",
     "@types/winston": "^2.4.4",
     "@types/yamljs": "^0.2.30",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "config": "^3.2.2",
     "debug": "^4.1.1",
     "express": "^4.17.1",
